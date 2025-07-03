@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Magic 8-Ball</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #111827, #1f2937);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      font-size: 2.5rem;
+    }
+
+    #question {
+      width: 300px;
+      padding: 10px;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: none;
+      margin-bottom: 15px;
+    }
+
+    #askBtn {
+      background-color: #2563eb;
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    #askBtn:hover {
+      background-color: #1e40af;
+    }
+
+    #answer {
+      margin-top: 30px;
+      font-size: 1.5rem;
+      text-align: center;
+      padding: 20px;
+      background-color: #111827;
+      border: 2px solid #2563eb;
+      border-radius: 10px;
+      width: 300px;
+      min-height: 100px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔮 Magic 8-Ball</h1>
+  <input type="text" id="question" placeholder="Ask your question..." />
+  <button id="askBtn">Ask the 8-Ball</button>
+  <div id="answer">The answer will appear here...</div>
+
+  <script>
+    const answers = [
+      "Yes, definitely.",
+      "Without a doubt.",
+      "You may rely on it.",
+      "Ask again later.",
+      "Cannot predict now.",
+      "Don’t count on it.",
+      "My reply is no.",
+      "Very doubtful.",
+      "Signs point to yes.",
+      "Outlook not so good.",
+      "Absolutely!",
+      "Try again.",
+    ];
+
+    const askBtn = document.getElementById("askBtn");
+    const answerDiv = document.getElementById("answer");
+
+    askBtn.addEventListener("click", () => {
+      const question = document.getElementById("question").value.trim();
+      if (question === "") {
+        answerDiv.textContent = "Please ask a question!";
+        return;
+      }
+
+      const randomAnswer = answers[Math.floor(Math.random() * answers.length)];
+      answerDiv.textContent = randomAnswer;
+    });
+  </script>
+</body>
+</html>

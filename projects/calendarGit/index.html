@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dynamic Calendar</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f0f4f8;
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .calendar {
+      background: #fff;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      border-radius: 10px;
+      padding: 2rem;
+      width: 350px;
+    }
+
+    .calendar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .calendar-header h2 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+
+    .calendar-header button {
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      padding: 0.3rem 0.6rem;
+      transition: color 0.3s ease;
+    }
+
+    .calendar-header button:hover {
+      color: #0077ff;
+    }
+
+    .calendar-days {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 0.5rem;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .calendar-dates {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 0.5rem;
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    .calendar-dates div {
+      padding: 0.7rem;
+      border-radius: 8px;
+    }
+
+    .today {
+      background-color: #0077ff;
+      color: white;
+      font-weight: bold;
+    }
+
+    .other-month {
+      color: #bbb;
+    }
+  </style>
+</head>
+<body>
+
+<div class="calendar">
+  <div class="calendar-header">
+    <button id="prev">&lt;</button>
+    <h2 id="monthYear"></h2>
+    <button id="next">&gt;</button>
+  </div>
+
+  <div class="calendar-days">
+    <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
+  </div>
+
+  <div class="calendar-dates" id="dates"></div>
+</div>
+
+<script>
+  const monthYear = document.getElementById('monthYear');
+  const dates = document.getElementById('dates');
+  const prev = document.getElementById('prev');
+  const next = document.getElementById('next');
+
+  let currentDate = new Date();
+
+  function renderCalendar(date) {
+    const year = date.getFullYear();
+    const month = date.getMonth();
+
+    const firstDay = new Date(year, month, 1).getDay();
+    const lastDate = new Date(year, month + 1, 0).getDate();
+    const prevLastDate = new Date(year, month, 0).getDate();
+
+    monthYear.innerText = date.toLocaleDateString('default', { month: 'long', year: 'numeric' });
+
+    dates.innerHTML = '';
+
+    for (let i = firstDay; i > 0; i--) {
+      const d = document.createElement('div');
+      d.classList.add('other-month');
+      d.innerText = prevLastDate - i + 1;
+      dates.appendChild(d);
+    }
+
+    for (let i = 1; i <= lastDate; i++) {
+      const d = document.createElement('div');
+      d.innerText = i;
+
+      const today = new Date();
+      if (
+        i === today.getDate() &&
+        month === today.getMonth() &&
+        year === today.getFullYear()
+      ) {
+        d.classList.add('today');
+      }
+
+      dates.appendChild(d);
+    }
+  }
+
+  prev.addEventListener('click', () => {
+    currentDate.setMonth(currentDate.getMonth() - 1);
+    renderCalendar(currentDate);
+  });
+
+  next.addEventListener('click', () => {
+    currentDate.setMonth(currentDate.getMonth() + 1);
+    renderCalendar(currentDate);
+  });
+
+  renderCalendar(currentDate);
+</script>
+
+</body>
+</html>
